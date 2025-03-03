@@ -43,6 +43,9 @@
   </div>
 
   <script>
+    if (location.protocol !== 'https:') {
+      location.replace(`https:${location.href.substring(location.protocol.length)}`);
+    }
     document.getElementById("waitlistForm").addEventListener("submit", async function (event) {
       event.preventDefault(); // Prevent default form submission
     
