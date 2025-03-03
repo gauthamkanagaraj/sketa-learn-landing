@@ -15,15 +15,15 @@
   <!-- Form Container -->
   <div class="w-full rounded-lg bg-[#2a2a2a] p-10 text-sm text-[#ffddb3] sm:w-96 max-w-96 mt-18 shadow-lg">
     <h3 class="mb-6 text-center text-xl text-[#ffddb3] font-semibold">Get updates and exclusive early access</h3>
-    <form id="waitlistForm" action="https://docs.google.com/forms/d/e/1FAIpQLSeLsI6Tg9Vrb2mCivr97cbktv33-WtmVPIleqCsSDwHcMQ5ig/formResponse">
+    <form id="waitlistForm">
       <div class="mb-5 flex gap-3 rounded-full bg-[#4a2f22] px-6 py-3">
-        <input type="text" id="name" name="entry.230073128" placeholder="Name" class="border-none outline-none w-full bg-transparent text-white placeholder-[#ffb38a]" required />
+        <input type="text" id="name" placeholder="Name" class="border-none outline-none w-full bg-transparent text-white placeholder-[#ffb38a]" required />
       </div>
       <div class="mb-5 flex gap-3 rounded-full bg-[#4a2f22] px-6 py-3">
-        <input type="email" id="email" name="entry.216184874" placeholder="Email" class="border-none outline-none w-full bg-transparent text-white placeholder-[#ffb38a]" required />
+        <input type="email" id="email" placeholder="Email" class="border-none outline-none w-full bg-transparent text-white placeholder-[#ffb38a]" required />
       </div>
       <div class="mb-5 flex gap-3 rounded-full bg-[#4a2f22] px-6 py-3">
-        <input type="text" id="country" name="entry.797311066" placeholder="Your Country" class="border-none outline-none w-full bg-transparent text-white placeholder-[#ffb38a]" required />
+        <input type="text" id="country" placeholder="Your Country" class="border-none outline-none w-full bg-transparent text-white placeholder-[#ffb38a]" required />
       </div>
       <button type="submit" class="w-full rounded-full bg-gradient-to-r from-[#d35100] to-[#ff7b3e] py-3 font-medium tracking-wide text-white cursor-pointer hover:opacity-90 transition duration-300">
         Join the Waitlist
@@ -73,7 +73,7 @@
         showToast("Joined the waitlist! 🎉", "Success", "font-semibold text-green-700", "w-1 bg-green-700 h-10 rounded-l-lg");
     
         setTimeout(() => {
-          window.location.href = "https:/sketa.tech"; // Redirect to your preferred URL
+          window.location.href = "https://sketa.tech"; // Redirect to your preferred URL
         }, 2000);
         
       } catch (error) {
