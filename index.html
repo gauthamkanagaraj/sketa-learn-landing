@@ -43,7 +43,7 @@
     <!-- Success Indicator -->
     <div id="toastIndicator" class="w-1 bg-green-700 h-10 rounded-l-lg"></div>
     <div class="ml-3">
-      <p id="toastTitle" class="font-semibold text-green-700">Success</p>
+      <p id="toastTitle" class="font-semibold text-green-700">Hooray!</p>
       <p id="toastMessage" class="text-gray-600 text-sm">You've joined the waitlist!</p>
     </div>
   </div>
@@ -76,7 +76,7 @@
           mode: "no-cors", // Required for Google Forms
         });
     
-        showToast("Joined the waitlist! 🎉", "Success", "font-semibold text-green-700", "w-1 bg-green-700 h-10 rounded-l-lg");
+        showToast("You've joined the waitlist! 🎉", "Success", "font-semibold text-green-700", "w-1 bg-green-700 h-10 rounded-l-lg");
     
         setTimeout(() => {
           window.location.href = "https://sketa.tech"; // Redirect to your preferred URL
