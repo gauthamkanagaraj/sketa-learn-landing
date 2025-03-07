@@ -8,6 +8,13 @@
   <link rel="shortcut icon" href="./favicon/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png" />
   <link rel="manifest" href="./favicon/site.webmanifest" />
+  <style>
+    body {
+      background-image: url("./images/background.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+  </style>
 </head>
 
 <body class="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#d35100] to-[#ff7b3e] relative pb-32">
@@ -20,7 +27,7 @@
 
   <!-- Form Container -->
   <div class="w-full rounded-lg bg-[#2a2a2a] p-10 text-sm text-[#ffddb3] sm:w-96 max-w-96 mt-18 shadow-lg">
-    <h3 class="mb-6 text-center text-xl text-[#ffddb3] font-semibold">Get Updates and Exclusive early access</h3>
+    <h3 class="mb-6 text-center text-xl text-[#ffddb3] font-semibold">Get Updates and Exclusive Early Access</h3>
     <form id="waitlistForm">
       <div class="mb-5 flex gap-3 rounded-full bg-[#4a2f22] px-6 py-3">
         <input type="text" id="name" placeholder="Name" class="border-none outline-none w-full bg-transparent text-white placeholder-[#ffb38a]" required />
@@ -31,8 +38,9 @@
       <div class="mb-5 flex gap-3 rounded-full bg-[#4a2f22] px-6 py-3">
         <input type="text" id="country" placeholder="Your Country" class="border-none outline-none w-full bg-transparent text-white placeholder-[#ffb38a]" required />
       </div>
-      <button type="submit" class="w-full rounded-full bg-gradient-to-r from-[#d35100] to-[#ff7b3e] py-3 font-medium tracking-wide text-white cursor-pointer hover:opacity-90 transition duration-300">
-        Join the Waitlist
+      <button id="waitlistBtn" type="submit" class="w-full rounded-full bg-gradient-to-r from-[#d35100] to-[#a63f00] py-3 font-medium tracking-wide text-white cursor-pointer flex items-center justify-center gap-2">
+        <span id="btnText">Join the Waitlist</span>
+        <span id="spinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
       </button>
     </form>
     <span class="block w-full h-0.5 bg-gradient-to-r from-[#2a2a2a] via-[#d35100] to-[#2a2a2a] mt-6"></span>
@@ -52,54 +60,66 @@
     if (location.protocol !== 'https:') {
       location.replace(`https:${location.href.substring(location.protocol.length)}`);
     }
+
     document.getElementById("waitlistForm").addEventListener("submit", async function (event) {
       event.preventDefault(); // Prevent default form submission
-    
-      const form = event.target;
+
       const name = document.getElementById("name").value.trim();
       const email = document.getElementById("email").value.trim();
       const country = document.getElementById("country").value.trim();
-    
-      // Replace with your Google Form's actual "formResponse" URL
+      const button = document.getElementById("waitlistBtn");
+      const btnText = document.getElementById("btnText");
+      const spinner = document.getElementById("spinner");
+
+      // Show spinner and disable button
+      button.disabled = true;
+      btnText.textContent = "Joining...";
+      spinner.classList.remove("hidden");
+
+      // Google Forms API URL
       const googleFormURL = "https://docs.google.com/forms/d/e/1FAIpQLSeLsI6Tg9Vrb2mCivr97cbktv33-WtmVPIleqCsSDwHcMQ5ig/formResponse";
       
-      // Replace `entry.xxxxx` with your actual Google Form field entry IDs
+      // Form Data
       const formData = new URLSearchParams();
       formData.append("entry.230073128", name);
       formData.append("entry.216184874", email);
       formData.append("entry.797311066", country);
-    
+
       try {
         await fetch(googleFormURL, {
           method: "POST",
           body: formData,
           mode: "no-cors", // Required for Google Forms
         });
-    
-        showToast("You've joined the waitlist! 🎉", "Success", "font-semibold text-green-700", "w-1 bg-green-700 h-10 rounded-l-lg");
-    
+
+        showToast("You've joined the waitlist! 🎉", "Hooray!", "text-green-700", "bg-green-700");
+
         setTimeout(() => {
-          window.location.href = "https://sketa.tech"; // Redirect to your preferred URL
+          window.location.href = "https://sketa.tech"; // Redirect after success
         }, 2000);
         
       } catch (error) {
-        showToast("Submission failed. Please try again.", "Error", "font-semibold text-red-700", "w-1 bg-red-700 h-10 rounded-l-lg");
+        showToast("Submission failed. Please try again.", "Error", "text-red-700", "bg-red-700");
+      } finally {
+        // Hide spinner and enable button again
+        button.disabled = false;
+        btnText.textContent = "Join the Waitlist";
+        spinner.classList.add("hidden");
       }
     });
-    
-    function showToast(message, title, toastTitleClass, toastIndicatorClass) {
+
+    function showToast(message, title, titleClass, indicatorClass) {
       const toast = document.getElementById("toast");
       document.getElementById("toastTitle").textContent = title;
       document.getElementById("toastMessage").textContent = message;
-      document.getElementById("toastTitle").className = toastTitleClass;
-      document.getElementById("toastIndicator").className = toastIndicatorClass;
+      document.getElementById("toastTitle").className = `font-semibold ${titleClass}`;
+      document.getElementById("toastIndicator").className = `w-1 h-10 rounded-l-lg ${indicatorClass}`;
 
       toast.classList.remove("hidden");
-      setTimeout(closeToast, 3000); // Auto-close after 3 seconds
-    }
 
-    function closeToast() {
-      document.getElementById("toast").classList.add("hidden");
+      setTimeout(() => {
+        toast.classList.add("hidden");
+      }, 2000);
     }
   </script>
 
