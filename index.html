@@ -114,11 +114,6 @@
 
         //Send Meta Pixel and CAPI Event Data
         sendLeadToPixel(formData);
-        
-        setTimeout(() => {
-          console.log("Data is sent to Meta Pixel successfully!")
-          window.location.href = "https://sketa.tech"; // Redirect after success
-        }, 2000);
       } catch (error) {
         showToast("Submission failed. Please try again.", "Error", "text-red-700", "bg-red-700");
       } finally {
@@ -126,6 +121,11 @@
         button.disabled = false;
         btnText.textContent = "Join the Waitlist";
         spinner.classList.add("hidden");
+
+        setTimeout(() => {
+            console.log("Data sent successfully! Redirecting...");
+            window.location.href = "https://sketa.tech"; 
+        }, 2000); // Adjust if needed
       }
     });
 
