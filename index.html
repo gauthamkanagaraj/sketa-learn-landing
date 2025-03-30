@@ -113,7 +113,9 @@
         showToast("You've joined the waitlist! 🎉", "Hooray!", "text-green-700", "bg-green-700");
 
         //Send Meta Pixel and CAPI Event Data
-        sendLeadToPixel(formData);
+        const eventID = generateEventID();
+        sendLeadToPixel(eventID);
+        sendLeadToCAPI(eventID);
       } catch (error) {
         showToast("Submission failed. Please try again.", "Error", "text-red-700", "bg-red-700");
       } finally {
@@ -129,10 +131,34 @@
       }
     });
 
-    function sendLeadToPixel(formData) {
+    function sendLeadToPixel(eventID) {
       console.log("About to send lead data to Meta Pixel");
-      fbq('track', 'Lead', {}, { eventID: generateEventID() });
+      fbq('track', 'Lead', {}, { eventID: eventID });
       console.log("Lead data sent to Meta Pixel");
+    }
+
+    function sendLeadToCAPI(eventID) {
+      console.log("About to send lead data to Meta CAPI");
+      // ✅ Send CAPI Event via Cloudflare Worker
+      fetch("https://meta-conversions-api-worker.gauthamkanagaraj1998.workers.dev/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event_name: "Lead",
+          event_time: Math.floor(Date.now() / 1000),
+          action_source: "website",
+          user_data: {
+            email: email,
+            country: country,
+            firstName: name
+          },
+          event_id: eventID
+        })
+      }).then(response => {
+        console.log("CAPI Event sent successfully!");
+      }).catch(error => {
+        console.error("CAPI Event failed:", error);
+      });
     }
 
     function showToast(message, title, titleClass, indicatorClass) {
