@@ -112,9 +112,8 @@
 
         showToast("You've joined the waitlist! 🎉", "Hooray!", "text-green-700", "bg-green-700");
 
-        setTimeout(() => {
-          window.location.href = "https://sketa.tech"; // Redirect after success
-        }, 2000);
+        //Send Meta Pixel and CAPI Event Data
+        sendLeadToPixel(formData);
         
       } catch (error) {
         showToast("Submission failed. Please try again.", "Error", "text-red-700", "bg-red-700");
@@ -125,6 +124,15 @@
         spinner.classList.add("hidden");
       }
     });
+
+    function sendLeadToPixel(formData) {
+      fbq('track', 'Lead', {}, { eventID: generateEventID() }, function() {
+        setTimeout(() => {
+          console.log("Data is sent to Meta Pixel successfully!")
+          window.location.href = "https://sketa.tech"; // Redirect after success
+        }, 2000);
+      });
+    }
 
     function showToast(message, title, titleClass, indicatorClass) {
       const toast = document.getElementById("toast");
@@ -139,6 +147,18 @@
         toast.classList.add("hidden");
       }, 2000);
     }
+
+    async function hashData(value) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(value.toLowerCase().trim());
+      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+      return [...new Uint8Array(hashBuffer)].map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    function generateEventID() {
+      return 'event-' + Date.now() + '-' + Math.floor(Math.random() * 1000000);
+    }
+
   </script>
 
 </body>
