@@ -115,6 +115,10 @@
         //Send Meta Pixel and CAPI Event Data
         sendLeadToPixel(formData);
         
+        setTimeout(() => {
+          console.log("Data is sent to Meta Pixel successfully!")
+          window.location.href = "https://sketa.tech"; // Redirect after success
+        }, 2000);
       } catch (error) {
         showToast("Submission failed. Please try again.", "Error", "text-red-700", "bg-red-700");
       } finally {
@@ -126,12 +130,9 @@
     });
 
     function sendLeadToPixel(formData) {
-      console.log("About to send data to Meta Pixel");
-      fbq('track', 'Lead', {}, { eventID: generateEventID() }, function() {
-        console.log("Data is sent to Meta Pixel successfully!")
-        window.location.href = "https://sketa.tech";
-      });
-      console.log("Sent data to Meta Pixel");
+      console.log("About to send lead data to Meta Pixel");
+      fbq('track', 'Lead', {}, { eventID: generateEventID() });
+      console.log("Lead data sent to Meta Pixel");
     }
 
     function showToast(message, title, titleClass, indicatorClass) {
