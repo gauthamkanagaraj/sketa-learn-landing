@@ -115,7 +115,7 @@
         //Send Meta Pixel and CAPI Event Data
         const eventID = generateEventID();
         sendLeadToPixel(eventID);
-        sendLeadToCAPI(eventID);
+        sendLeadToCAPI(eventID, email, country, name);
       } catch (error) {
         showToast("Submission failed. Please try again.", "Error", "text-red-700", "bg-red-700");
       } finally {
@@ -137,7 +137,7 @@
       console.log("Lead data sent to Meta Pixel");
     }
 
-    function sendLeadToCAPI(eventID) {
+    function sendLeadToCAPI(eventID, email, country, name) {
       console.log("About to send lead data to Meta CAPI");
       // ✅ Send CAPI Event via Cloudflare Worker
       fetch("https://meta-conversions-api-worker.gauthamkanagaraj1998.workers.dev/", {
