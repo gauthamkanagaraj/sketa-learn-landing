@@ -126,12 +126,12 @@
     });
 
     function sendLeadToPixel(formData) {
+      console.log("About to send data to Meta Pixel");
       fbq('track', 'Lead', {}, { eventID: generateEventID() }, function() {
-        setTimeout(() => {
-          console.log("Data is sent to Meta Pixel successfully!")
-          window.location.href = "https://sketa.tech"; // Redirect after success
-        }, 2000);
+        console.log("Data is sent to Meta Pixel successfully!")
+        window.location.href = "https://sketa.tech";
       });
+      console.log("Sent data to Meta Pixel");
     }
 
     function showToast(message, title, titleClass, indicatorClass) {
